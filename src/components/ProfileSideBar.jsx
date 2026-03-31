@@ -1,7 +1,11 @@
 import { Col, Button } from "react-bootstrap";
 import IconButton from "./IconButton";
+import { useState } from "react";
+import NewPostModal from "./NewPostModal";
 
 export default function ProfileSideBar({ handleLogout }) {
+  const [show, setShow] = useState(false);
+
   return (
     <Col
       sm={2}
@@ -23,7 +27,11 @@ export default function ProfileSideBar({ handleLogout }) {
         text="Logout"
         onClick={handleLogout}
       />
-      <Button className="rounded-pill w-100 mb-3">Tweet</Button>
+      <Button className="rounded-pill w-100 mb-3" onClick={() => setShow(true)}>
+        Tweet
+      </Button>
+
+      <NewPostModal show={show} handleClose={() => setShow(false)} />
     </Col>
   );
 }
