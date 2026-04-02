@@ -1,22 +1,25 @@
-import { useEffect } from "react";
+import { getAuth } from "firebase/auth";
+import { useContext, useEffect } from "react";
 import { Container, Row } from "react-bootstrap";
 import { useNavigate } from "react-router-dom";
-import { useLocalStorage } from "usehooks-ts";
 import ProfileSideBar from "../components/ProfileSideBar";
 import ProfileMidBody from "../components/ProfileMidBody";
+import { AuthContext } from "../components/AuthProvider";
 
 export default function ProfilePage() {
-  const handleLogout = () => {
-    setAuthToken("");
-  };
-  const [authToken, setAuthToken] = useLocalStorage("authToken", "");
+  const auth = getAuth();
   const navigate = useNavigate();
+  const { currentUser } = useContext(AuthContext);
 
   useEffect(() => {
-    if (!authToken) {
+    if (!currentUser) {
       navigate("/login");
     }
-  }, [authToken, navigate]);
+  }, [currentUser, navigate]);
+
+  const handleLogout = () => {
+    auth.signOut();
+  };
 
   return (
     <>
